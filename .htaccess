@@ -1,0 +1,42 @@
+# aviation access rules
+
+php_value session.gc_maxlifetime "86400"
+php_value session.cache_expire "86400"
+php_value session.cache_limiter "private"
+php_value display_errors "off"
+php_value upload_max_filesize 10M
+php_value post_max_size 10M
+
+DirectoryIndex index.php index.html
+Options -Indexes
+Options +FollowSymLinks 
+
+RewriteEngine on 
+
+RewriteCond %{HTTP_HOST} ^www.aviationmetals.net [NC] 
+RewriteRule ^(.*)$ http://aviationmetals.net/$1 [L,R=301] 
+
+RewriteRule ^products?/category/([^/]+)$ /products.php?category=$1 [L]
+RewriteRule ^products?/item/([^/]+)$ /products.php?item=$1 [L]
+
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !^index.php
+	RewriteRule (.*) index.php/$1 [L]
+
+#RewriteRule ^/([^/]+)$ /products.php?category=$1[L]
+#RewriteRule ^products?/item/([^/]+)$ /products.php?item=$1 [L]
+
+
+
+#Redirect 301 /control/test/ http://aviationmetals.net/control/
+Redirect 301 /alloys http://aviationmetals.net/products.php
+Redirect 301 /aps.php http://aviationmetals.net/products.php
+Redirect 301 /contact-us.php http://aviationmetals.net/contact.php
+Redirect 301 /request-a-quote.php http://aviationmetals.net/quote.php
+
+#custom error docs
+ErrorDocument 403 /error.php?e=403
+ErrorDocument 404 /error.php?e=404
+ErrorDocument 500 /error.php?e=500
